@@ -5,21 +5,26 @@ import { useState } from "react";
 
 // Function to calculate time difference
 const getTimeAgo = (createdAt) => {
-  const createdDate = new Date(createdAt);
+  const createdDate = new Date(Date.parse(createdAt));
   const now = new Date();
-  const diffInMs = now - createdDate;
 
-  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+  const diffInMs = now - createdDate;
+  const diffInSeconds = Math.floor(diffInMs / 1000);
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  const diffInHours = Math.floor(diffInMinutes / 60);
   const diffInDays = Math.floor(diffInHours / 24);
 
-  if (diffInHours < 1) {
+  if (diffInMinutes < 1) {
     return "Just now";
+  } else if (diffInMinutes < 60) {
+    return diffInMinutes === 1 ? "1m Ago" : `${diffInMinutes}m Ago`;
   } else if (diffInHours < 24) {
     return diffInHours === 1 ? "1h Ago" : `${diffInHours}h Ago`;
   } else {
     return diffInDays === 1 ? "1D Ago" : `${diffInDays}D Ago`;
   }
 };
+
 
 
 const JobCard = ({ job }) => {
