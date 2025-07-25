@@ -11,9 +11,10 @@ const JobListings = () => {
 
   // 1️⃣ Fetch jobs only once
   useEffect(() => {
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
     const fetchJobs = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/jobs", {
+        const response = await axios.get(`${apiUrl}/api/jobs`, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -60,17 +61,16 @@ const JobListings = () => {
       );
     }
 
-  if (filteredJobs?.salary?.[1] > 0) {
-    result = result.filter((job) => {
-      const monthlyFrom = (job.salaryFrom) / 12;
-      const monthlyTo = (job.salaryTo) / 12;
-      return (
-        monthlyTo >= filteredJobs.salary[0] &&
-        monthlyFrom <= filteredJobs.salary[1]
-      );
-    });
-  }
-
+    if (filteredJobs?.salary?.[1] > 0) {
+      result = result.filter((job) => {
+        const monthlyFrom = job.salaryFrom / 12;
+        const monthlyTo = job.salaryTo / 12;
+        return (
+          monthlyTo >= filteredJobs.salary[0] &&
+          monthlyFrom <= filteredJobs.salary[1]
+        );
+      });
+    }
 
     setVisibleJobs(result);
   }, [jobs, filteredJobs]);

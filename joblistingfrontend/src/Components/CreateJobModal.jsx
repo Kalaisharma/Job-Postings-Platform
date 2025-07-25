@@ -7,17 +7,19 @@ import {
   IconButton,
   TextField,
   MenuItem,
-    Typography,
-  TextareaAutosize
+  Typography,
+  TextareaAutosize,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useEffect, useState,useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { ModalContext, JobsContext } from '../App'
+import { ModalContext, JobsContext } from "../App";
 
 const CreateJobModal = () => {
+  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
   const { isModalOpen, setIsModalOpen } = useContext(ModalContext);
-  const{jobs, setJobs} = useContext(JobsContext);
+  const { jobs, setJobs } = useContext(JobsContext);
   const [formData, setFormData] = useState({
     title: "",
     company: "",
@@ -51,7 +53,6 @@ const CreateJobModal = () => {
       document.body.style.overflow = "scroll";
     };
   }, [isModalOpen]);
-
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -121,15 +122,13 @@ const CreateJobModal = () => {
     };
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/jobs",
-        payload,
-        { headers: { "Content-Type": "application/json" } }
-      );
+      const response = await axios.post(`${apiUrl}/api/jobs`, payload, {
+        headers: { "Content-Type": "application/json" },
+      });
 
       if (response.status === 200 || response.status === 201) {
         alert("Job posted successfully!");
-setJobs([response.data.jobs, ...jobs]);
+        setJobs([response.data.jobs, ...jobs]);
 
         // Reset form
         setFormData({
@@ -154,59 +153,58 @@ setJobs([response.data.jobs, ...jobs]);
   };
 
   const handleSaveDraft = () => {
-  //To be implemented in real-timescenarion as of now it just hardcoded
-  const {
-    title,
-    company,
-    location,
-    jobType,
-    salaryFrom,
-    salaryTo,
-    deadline,
-    description,
-  } = formData;
+    //To be implemented in real-timescenarion as of now it just hardcoded
+    const {
+      title,
+      company,
+      location,
+      jobType,
+      salaryFrom,
+      salaryTo,
+      deadline,
+      description,
+    } = formData;
 
-  if (
-    !title ||
-    !company ||
-    !location ||
-    !jobType ||
-    !salaryFrom ||
-    !salaryTo ||
-    !deadline ||
-    !description
-  ) {
-    alert("Please fill in all fields before saving as draft.");
-    return;
-  }
+    if (
+      !title ||
+      !company ||
+      !location ||
+      !jobType ||
+      !salaryFrom ||
+      !salaryTo ||
+      !deadline ||
+      !description
+    ) {
+      alert("Please fill in all fields before saving as draft.");
+      return;
+    }
 
-  if (location === "Select Location") {
-    alert("Please select a valid location.");
-    return;
-  }
+    if (location === "Select Location") {
+      alert("Please select a valid location.");
+      return;
+    }
 
-  if (jobType === "Job Type") {
-    alert("Please select a valid job type.");
-    return;
-  }
+    if (jobType === "Job Type") {
+      alert("Please select a valid job type.");
+      return;
+    }
 
-  if (Number(salaryFrom) >= Number(salaryTo)) {
-    alert("Salary 'From' must be less than 'To'.");
-    return;
-  }
+    if (Number(salaryFrom) >= Number(salaryTo)) {
+      alert("Salary 'From' must be less than 'To'.");
+      return;
+    }
 
-  const today = new Date();
-  const selectedDate = new Date(deadline);
-  if (selectedDate <= today) {
-    alert("Application deadline must be a future date.");
-    return;
-  }
+    const today = new Date();
+    const selectedDate = new Date(deadline);
+    if (selectedDate <= today) {
+      alert("Application deadline must be a future date.");
+      return;
+    }
 
-  // If all checks pass
+    // If all checks pass
     alert("Draft saved successfully!");
-            setIsModalOpen(false);
-
-};
+    setIsModalOpen(false);
+  };
 
   return (
     <Dialog
