@@ -5,14 +5,21 @@ import { useState } from "react";
 
 // Function to calculate time difference
 const getTimeAgo = (createdAt) => {
-  const createdDate = new Date(Date.parse(createdAt));
+  const createdDate = new Date(createdAt);
   const now = new Date();
 
   const diffInMs = now - createdDate;
+
+  if (diffInMs < 0) {
+    return "In the future";
+  }
+
   const diffInSeconds = Math.floor(diffInMs / 1000);
   const diffInMinutes = Math.floor(diffInSeconds / 60);
   const diffInHours = Math.floor(diffInMinutes / 60);
   const diffInDays = Math.floor(diffInHours / 24);
+  const diffInMonths = Math.floor(diffInDays / 30);
+  const diffInYears = Math.floor(diffInDays / 365);
 
   if (diffInMinutes < 1) {
     return "Just now";
@@ -20,10 +27,15 @@ const getTimeAgo = (createdAt) => {
     return diffInMinutes === 1 ? "1m Ago" : `${diffInMinutes}m Ago`;
   } else if (diffInHours < 24) {
     return diffInHours === 1 ? "1h Ago" : `${diffInHours}h Ago`;
-  } else {
+  } else if (diffInDays < 30) {
     return diffInDays === 1 ? "1D Ago" : `${diffInDays}D Ago`;
+  } else if (diffInDays < 365) {
+    return diffInMonths === 1 ? "1M Ago" : `${diffInMonths}M Ago`;
+  } else {
+    return diffInYears === 1 ? "1Y Ago" : `${diffInYears}Y Ago`;
   }
 };
+
 
 
 
