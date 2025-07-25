@@ -80,6 +80,7 @@ const JobCard = ({ job }) => {
             sx={{
               width: 83.46,
               height: 82,
+              objectFit: "contain",
               bgcolor: "#e0e0e0",
               borderRadius: "13.18px",
             }}
