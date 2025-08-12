@@ -69,17 +69,17 @@ job-management/
 ## ⚙️ Installation & Setup
 
 ### **1. Clone the Repository**
-git clone https://github.com/your-username/job-management-admin.git
-cd job-management-admin
+git clone [https://github.com/your-username/job-management-admin.git](https://github.com/Kalaisharma/Job-Postings-Platform)
 
-2. Backend Setup
-cd backend
+
+### **2. Backend Setup**
+cd joblistingbackend
 npm install
-# Add MongoDB connection URI to .env file
+Add MongoDB connection URI to .env file
 npm run dev
 
-3. Frontend Setup
-cd frontend
+### **3. Frontend Setup**
+cd joblistingfrontend
 npm install
 npm start
 
