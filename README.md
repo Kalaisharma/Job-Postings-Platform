@@ -37,8 +37,7 @@ Built using **ReactJS**, **Node.js**, **Express.js**, and **MongoDB**.
 - ReactJS
 - React Hook Form
 - Axios
-- CSS Modules / Tailwind (depending on your styling choice)
-
+- Material UI
 **Backend**
 - Node.js
 - Express.js
